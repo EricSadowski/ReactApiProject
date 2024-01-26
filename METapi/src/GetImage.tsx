@@ -8,7 +8,9 @@ const GetImage = () => {
   useEffect(() => {
     const fetchArtworkData = async () => {
       try {
-        const response = await axios.get("https://collectionapi.metmuseum.org/public/collection/v1/objects/436524");
+        const response = await axios.get(
+          "https://collectionapi.metmuseum.org/public/collection/v1/objects/436524"
+        );
         setArtworkData(response.data);
       } catch (error) {
         setError("Failed to fetch artwork data");
@@ -39,3 +41,5 @@ const GetImage = () => {
 };
 
 export default GetImage;
+
+// Meegun wuz here
