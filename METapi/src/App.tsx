@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import { Grid, GridItem } from '@chakra-ui/react'
-import ArtGrid from './components/artGrid'
+import ArtGrid from './components/ArtGrid'
 import Header from './components/Header'
 import Footer from './components/Footer'
 
