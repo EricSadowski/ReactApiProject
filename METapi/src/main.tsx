@@ -5,7 +5,8 @@ import './index.css'
 import { ChakraProvider } from '@chakra-ui/react'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  // <React.StrictMode>
+   // had to turn off strictmode because it renders twice for some reason
+ // <React.StrictMode>
     <ChakraProvider>
     <App />
     </ChakraProvider>
