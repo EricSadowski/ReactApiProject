@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import apiClient from "../services/api-client";
-import { Input } from "@chakra-ui/react";
+import { Box, Input, SimpleGrid, Text, Image } from "@chakra-ui/react";
 import { Button, ButtonGroup } from "@chakra-ui/react";
+import Masonry from "react-responsive-masonry";
 
 const GetImage = () => {
   const [artworkIds, setArtworkIds] = useState<any[]>([]);
   const [artworkData, setArtworkData] = useState<any[]>([]);
-  const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
+  const [imagesLoaded, setImagesLoaded] = useState(false);
 
   // when page loads default is Sunflower search
   useEffect(() => {
@@ -39,6 +40,7 @@ const GetImage = () => {
           );
           setArtworkData((prevState) => [...prevState, response.data]); // Update artworkData with the fetched data using prevState on search its blanked out before.
           console.log("data updated");
+          setImagesLoaded(true);
         }
       } catch (error) {
         setError("Failed to fetch artwork data");
@@ -105,40 +107,24 @@ const GetImage = () => {
   // }
 
   return (
-    <div>
-      {/* <button>press</button> */}
-      {/* <p>Artist: {artworkData.constituents[0]?.name || "Unknown Artist"}</p>
-      <p>Medium: {artworkData.medium}</p> */}
-      {/* Add more data as needed */}
-      <div>
-        <div>
-          {/* <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-            />
-            <button type="submit">Submit</button>
-          </form> */}
-          {/* Moved search function to header component (Megan) */}
-        </div>
-        {artworkData.map((artwork, index) => {
-          if (artwork.primaryImage) {
-            return (
-              <div>
-                <img
-                  key={index}
-                  src={artwork.primaryImage}
-                  alt={artwork.title}
-                />
-                <p>{artwork.title}</p> <p>{artwork.artistDisplayName}</p>
-              </div>
-            );
-          }
-          return null;
-        })}
-      </div>
-    </div>
+    <Box>
+      {imagesLoaded && (
+        <Masonry columnsCount={3} gutter="16">
+          {artworkData.map((artwork, index) => {
+            if (artwork.primaryImage) {
+              return (
+                <Box key={index} marginBottom="16px">
+                  <Image src={artwork.primaryImage} alt={artwork.title} />
+                  <Text>{artwork.title}</Text>
+                  <Text>{artwork.artistDisplayName}</Text>
+                </Box>
+              );
+            }
+            return null;
+          })}
+        </Masonry>
+      )}
+    </Box>
   );
 };
 

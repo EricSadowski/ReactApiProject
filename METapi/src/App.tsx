@@ -18,6 +18,8 @@ function App() {
         gridTemplateColumns={"1fr"}
         gap="1"
         fontWeight="bold"
+        width="100%"
+        justifyContent="center"
       >
         <GridItem pl="2" area={"header"}>
           <Header inputValue={inputValue} setInputValue={setInputValue} />
