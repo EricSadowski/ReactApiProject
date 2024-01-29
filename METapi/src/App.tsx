@@ -14,9 +14,8 @@ function App() {
         templateAreas={`"header"
                         "main"
                         "footer"`}
-        gridTemplateRows={'50px 1fr 30px'}
+        gridTemplateRows={'70px 1fr 30px'}
         gridTemplateColumns={'1fr'}
-        h='95vh'
         gap='1'
         fontWeight='bold'
       >
