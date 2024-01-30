@@ -50,6 +50,8 @@ const GetImage = () => {
 
     if (artworkIds.length > 0) {
       fetchArtworkData();
+    }else{
+      
     }
   }, [artworkIds]); // whenever ID state is updated this function is called.
 
@@ -99,23 +101,12 @@ const GetImage = () => {
   //   return <div>Error: {error}</div>;
   // }
 
-  // if (artworkData.length > 0) {
-  //   return (
-  //     <div>
-  //       {artworkData.map((artwork, index) => (
-  //         <img key={index} src={artwork.primaryImage} alt={artwork.title} />
-  //       ))}
-  //     </div>
-  //   );
-  // }
-
 
   return (
     <div>
       {/* <button>press</button> */}
       {/* <p>Artist: {artworkData.constituents[0]?.name || "Unknown Artist"}</p>
       <p>Medium: {artworkData.medium}</p> */}
-      {/* Add more data as needed */}
       <div>
       <div>
       <form onSubmit={handleSubmit}>
@@ -132,6 +123,7 @@ const GetImage = () => {
     className="my-masonry-grid"
   >
     <Masonry gutter="20px">
+      
       {artworkData.map((artwork, index) => {
         if (artwork.primaryImage) {
           return (
