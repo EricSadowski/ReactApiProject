@@ -2,6 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import { Grid, GridItem } from "@chakra-ui/react";
 import ArtGrid from "./components/ArtGrid";
+import GetImage from "./pages/GetImage";
+import Landing from "./pages/Landing";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import RootLayout from './layouts/RootLayout'
@@ -17,7 +19,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
       <Route index element={<ArtGrid />} />
-      {/* <Route path="landing" element={<Landing />}  /> */}
+      <Route path="landing" element={<Landing />}  />
       
     </Route>
   )

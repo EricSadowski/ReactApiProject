@@ -26,9 +26,6 @@ const artGrid = () => {
         <GridItem pl="2" area={"main"}>
         <GetImage />
         </GridItem>
-        <GridItem pl="2" area={"footer"}>
-          <Footer />
-        </GridItem>
       </Grid>
       
     </>
