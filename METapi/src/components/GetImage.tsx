@@ -3,6 +3,7 @@ import axios from "axios";
 import apiClient from "../services/api-client";
 import { Input } from '@chakra-ui/react'
 import { Button, ButtonGroup } from '@chakra-ui/react'
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 const GetImage = () => {
   const [artworkIds, setArtworkIds] = useState<any[]>([]);
@@ -126,13 +127,25 @@ const GetImage = () => {
         <button type="submit">Submit</button>
       </form>
     </div>
-        {artworkData.map((artwork, index) => {
-          if (artwork.primaryImage) {
-            return (<div><img key={index} src={artwork.primaryImage} alt={artwork.title} />
-              <p>{artwork.title}</p> <p>{artwork.artistDisplayName}</p></div>);
-          }
-          return null;
-        })}
+    <ResponsiveMasonry
+    columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
+    className="my-masonry-grid"
+  >
+    <Masonry gutter="20px">
+      {artworkData.map((artwork, index) => {
+        if (artwork.primaryImage) {
+          return (
+            <div key={index}>
+              <img src={artwork.primaryImage} alt={artwork.title} />
+              <p>{artwork.title}</p>
+              <p>{artwork.artistDisplayName}</p>
+            </div>
+          );
+        }
+        return null;
+      })}
+    </Masonry>
+  </ResponsiveMasonry>
       </div>
     </div>
   );

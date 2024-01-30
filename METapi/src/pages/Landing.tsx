@@ -66,22 +66,6 @@ const Landing = () => {
   }, [artworkIds]); // whenever ID state is updated this function is called.
 
 
-
-  
-  
-  // console logs for changes to state
-  useEffect(() => {
-    console.log("artworkIds updated:", artworkIds);
-  }, [artworkIds]);
-  
-  useEffect(() => {
-    console.log("artworkData updated:", artworkData);
-  }, [artworkData]);
-
-
-
-
-
   return (
     <div style={{ position: "relative", width: "100vw", height: "100vh", overflow: "hidden" }}>
       {/* Render the image of the random artwork as a background */}
