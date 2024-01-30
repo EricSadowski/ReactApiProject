@@ -62,7 +62,7 @@ const Landing = () => {
                     console.log("data updated")
                 }
                 catch (error) {
-                    setError("We really failed boss");
+                    setError("We really failed boss: its so over");
                     console.log(error);
                 }
 

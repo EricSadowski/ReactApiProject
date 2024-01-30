@@ -3,6 +3,7 @@ import axios from "axios";
 import apiClient from "../services/api-client";
 import { Input } from '@chakra-ui/react'
 import { Button, ButtonGroup } from '@chakra-ui/react'
+import { useToast } from '@chakra-ui/react'
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 const GetImage = () => {
@@ -11,7 +12,7 @@ const GetImage = () => {
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState("");
   
-
+  const toast = useToast()
 
   // when page loads default is Sunflower search
   useEffect(() => {
@@ -31,8 +32,8 @@ const GetImage = () => {
     fetchArtworkIds();
   }, []);
 
+  // a workaround method that is called when the user searches something that is not in the database
 const callDefault = async () => {
-
   try {
     const response = await axios.get(
       "https://collectionapi.metmuseum.org/public/collection/v1/search?isOnView=true&q=sunflower"
@@ -46,8 +47,6 @@ const callDefault = async () => {
 };
   
 
-
-
   // function that retrives the data based on the IDs in the useState
   useEffect(() => {
     const fetchArtworkData = async () => {
@@ -56,7 +55,8 @@ const callDefault = async () => {
           const response = await axios.get(
             `https://collectionapi.metmuseum.org/public/collection/v1/objects/${artworkIds[i]}`
           );
-          setArtworkData(prevState => [...prevState, response.data]); // Update artworkData with the fetched data using prevState on search its blanked out before.
+          // Update artworkData with the fetched data using prevState on search its blanked out before.
+          setArtworkData(prevState => [...prevState, response.data]); 
           console.log("data updated")
         }
       } catch (error) {
@@ -69,11 +69,10 @@ const callDefault = async () => {
     }else{
       
     }
-  }, [artworkIds]); // whenever ID state is updated this function is called.
+  }, [artworkIds]); // whenever ID state is updated this function is called which does all the heavy lifting.
 
   
 // TODO: make calls work with api client
-// SEARCH functionality
   async function searchForTerm(search: string) {
     // apiClient
     //   .get<any>(`/search?isOnView=true&q=${search}`)
@@ -84,11 +83,21 @@ const callDefault = async () => {
     //   .catch((err) => setError(err.message));
 
     try {
+      // Takes the search term and finds all the IDs associated with it
       const response = await axios.get(
         `https://collectionapi.metmuseum.org/public/collection/v1/search?isOnView=true&q=${search}`
       );
-      console.log(response.data); // console log to see how many items there are
+      // console log to see how many items there are
+      console.log(response.data); 
+      // checks if the user searched and it came up with no results aka null
+      // returns the default search
       if(response.data.objectIDs === null){
+        //toast popup that tells user
+        toast({
+          title: `No Items Found with term: ${search}`,
+          status: "error",
+          isClosable: true,
+        })
         setArtworkData([]);
         callDefault();
         return;
@@ -101,7 +110,7 @@ const callDefault = async () => {
     }
   }
   
-  // console logs for changes to state
+  // console logs for changes to state.. used for debugging
   useEffect(() => {
     console.log("artworkIds updated:", artworkIds);
   }, [artworkIds]);
@@ -110,6 +119,7 @@ const callDefault = async () => {
     console.log("artworkData updated:", artworkData);
   }, [artworkData]);
   
+  //handle submit function that calls async function
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // Prevent page refresh on form submit
     searchForTerm(inputValue); // Handle form submission
@@ -117,7 +127,6 @@ const callDefault = async () => {
 
 
   // TODO: clean up error catching
-  
   // if (error) {
   //   return <div>Error: {error}</div>;
   // }
