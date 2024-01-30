@@ -154,18 +154,20 @@ const callDefault = async () => {
   >
     <Masonry gutter="20px">
       
-      {artworkData.map((artwork, index) => {
-        if (artwork.primaryImage) {
-          return (
-            <div key={index}>
-              <img src={artwork.primaryImage} alt={artwork.title} />
-              <p>{artwork.title}</p>
-              <p>{artwork.artistDisplayName}</p>
-            </div>
-          );
-        }
-        return null;
-      })}
+    {artworkData.map((artwork, index) => {
+  if (artwork.primaryImage) {
+    return (
+      <div key={index}>
+        <img src={artwork.primaryImage} alt={artwork.title} />
+        <p>{artwork.title}</p>
+        <p>
+          {artwork.artistDisplayName ? artwork.artistDisplayName : artwork.objectDate}
+        </p>
+      </div>
+    );
+  }
+  return null;
+})}
     </Masonry>
   </ResponsiveMasonry>
       </div>

@@ -93,7 +93,7 @@ const Landing = () => {
                     <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
                         <h1 style={{ color: "white", fontSize: "3em", textAlign: "center" }}>{randomArtwork.title}</h1>
                         <p style={{ color: "white", fontSize: "1.5em", textAlign: "center" }}>
-                            {randomArtwork.artistDisplayName ? randomArtwork.artistDisplayName : "Unknown Artist"}
+                        {randomArtwork.artistDisplayName ? randomArtwork.artistDisplayName : randomArtwork.objectDate}
                         </p>
                         <button className="enterButton"><Link to="/">Enter Site</Link></button>
                     </div>
