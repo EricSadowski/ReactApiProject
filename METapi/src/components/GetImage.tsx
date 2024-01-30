@@ -31,6 +31,22 @@ const GetImage = () => {
     fetchArtworkIds();
   }, []);
 
+const callDefault = async () => {
+
+  try {
+    const response = await axios.get(
+      "https://collectionapi.metmuseum.org/public/collection/v1/search?isOnView=true&q=sunflower"
+    );
+    console.log(response.data); 
+    setArtworkIds(response.data.objectIDs);
+    console.log("ids updated")
+  } catch (error) {
+    setError("Failed to fetch artwork data");
+  }
+};
+  
+
+
 
   // function that retrives the data based on the IDs in the useState
   useEffect(() => {
@@ -72,11 +88,16 @@ const GetImage = () => {
         `https://collectionapi.metmuseum.org/public/collection/v1/search?isOnView=true&q=${search}`
       );
       console.log(response.data); // console log to see how many items there are
+      if(response.data.objectIDs === null){
+        setArtworkData([]);
+        callDefault();
+        return;
+      }else{
       setArtworkIds(response.data.objectIDs);
       setArtworkData([]);
-      console.log("ids updated")
+      console.log("ids updated")}
     } catch (error) {
-      setError("Failed to fetch artwork data");
+      console.log(error);
     }
   }
   
