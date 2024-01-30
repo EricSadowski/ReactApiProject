@@ -4,33 +4,30 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import ArtGrid from "./components/ArtGrid";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import RootLayout from './layouts/RootLayout'
+import { 
+  createBrowserRouter, 
+  createRoutesFromElements, 
+  Route, 
+  RouterProvider 
+} from 'react-router-dom'
+
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<RootLayout />}>
+      <Route index element={<ArtGrid />} />
+      {/* <Route path="landing" element={<Landing />}  /> */}
+      
+    </Route>
+  )
+)
+
 
 function App() {
-  const [inputValue, setInputValue] = useState<string>("");
-
   return (
     <>
-      <Grid
-        templateAreas={`"header"
-                        "main"
-                        "footer"`}
-        gridTemplateRows={"70px 1fr 30px"}
-        gridTemplateColumns={"1fr"}
-        gap="1"
-        fontWeight="bold"
-        width="100%"
-        justifyContent="center"
-      >
-        <GridItem pl="2" area={"header"}>
-          <Header inputValue={inputValue} setInputValue={setInputValue} />
-        </GridItem>
-        <GridItem pl="2" area={"main"}>
-          <ArtGrid />
-        </GridItem>
-        <GridItem pl="2" area={"footer"}>
-          <Footer />
-        </GridItem>
-      </Grid>
+    <RouterProvider router={router} />
     </>
   );
 }
