@@ -8,7 +8,7 @@ const Landing = () => {
   const [artworkIds, setArtworkIds] = useState<any[]>([]);
   const [artworkData, setArtworkData] = useState<any[]>([]);
   const [inputValue, setInputValue] = useState('');
-  const [randomArtwork, setRandomArtwork] = useState<any>(null);
+  const [randomArtwork, setRandomArtwork] = useState<any>();
   const [error, setError] = useState("");
 
 
@@ -37,14 +37,23 @@ const Landing = () => {
     const fetchArtworkData = async () => {
         const randomIndex = Math.floor(Math.random() * artworkIds.length);
       try {
-        for (let i = 0; i < artworkIds.length; i++) { // iterate through id's appending them to end of url to recieve JSON data
-          const response = await axios.get(
+
+          let response = await axios.get(
             `https://collectionapi.metmuseum.org/public/collection/v1/objects/${artworkIds[randomIndex]}`
+           // "https://collectionapi.metmuseum.org/public/collection/v1/objects/436524"
           );
-          setArtworkData(prevState => [...prevState, response.data]); // Update artworkData with the fetched data using prevState on search its blanked out before.
+          // TODO: Set default on GET fail
+          console.log("response is: " + response.data.primaryImage);
+          if(response.data.primaryImage === ""){
+            response = await axios.get("https://collectionapi.metmuseum.org/public/collection/v1/objects/436524")
+          }
+          setRandomArtwork(response.data);
+          //setRandomArtwork(response) 
           console.log("data updated")
-        }
-      } catch (error) {
+         // console.log(randomArtwork);
+          
+        }      
+         catch (error) {
         setError("Failed to fetch artwork data");
       }
     };
@@ -57,15 +66,6 @@ const Landing = () => {
   }, [artworkIds]); // whenever ID state is updated this function is called.
 
 
-  useEffect(() => {
-    const fetchRandomArtwork = () => {
-    if (artworkData.length > 0) {
-        const randomIndex = Math.floor(Math.random() * artworkData.length);
-        setRandomArtwork(artworkData[randomIndex]);}
-    };
-
-    fetchRandomArtwork();
-  }, [artworkData])
 
   
   
@@ -83,18 +83,27 @@ const Landing = () => {
 
 
   return (
-
-    <div>
-    {/* Render the image of the random artwork */}
-    {randomArtwork && (
-      <div>
-        <img src={randomArtwork.primaryImage} alt={randomArtwork.title} />
-        <p>{randomArtwork.title}</p>
-        <p>{randomArtwork.artistDisplayName}</p>
-      </div>
-    )}
-  </div>
-
+    <div style={{ position: "relative", width: "100vw", height: "100vh", overflow: "hidden" }}>
+      {/* Render the image of the random artwork as a background */}
+      {randomArtwork && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: `url(${randomArtwork.primaryImage}) center/cover no-repeat`,
+          }}
+        >
+          {/* Text overlaid on the image */}
+          <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
+            <h1 style={{ color: "white", fontSize: "3em", textAlign: "center" }}>{randomArtwork.title}</h1>
+            <p style={{ color: "white", fontSize: "1.5em", textAlign: "center" }}>{randomArtwork.artistDisplayName}</p>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
