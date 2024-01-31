@@ -36,7 +36,7 @@ const Footer = () => {
             </Flex>
           </Flex>
           <UnorderedList listStyleType="none" spacing={4}>
-            <ListItem fontSize="large">Useful Links</ListItem>
+            <ListItem fontSize={["sm", "lg", "xl"]}>Useful Links</ListItem>
             <ListItem>
               <Link>Support</Link>
             </ListItem>
@@ -51,7 +51,7 @@ const Footer = () => {
             </ListItem>
           </UnorderedList>
           <UnorderedList listStyleType="none" spacing={4}>
-            <ListItem fontSize="large">About The Met</ListItem>
+            <ListItem fontSize={["sm", "lg", "xl"]}>About The Met</ListItem>
             <ListItem>
               <Link>Mission and History</Link>
             </ListItem>
@@ -66,7 +66,7 @@ const Footer = () => {
             </ListItem>
           </UnorderedList>
           <Flex direction="column" align="center">
-            <Text fontSize={["sm", "lg", "xl", "2xl"]}>
+            <Text fontSize={["sm", "lg", "xl"]}>
               Enter your email to receive news about the Met:
             </Text>
             <Input
