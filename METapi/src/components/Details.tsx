@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Footer from "./Footer"
 import Header from "./Header"
-import { useLocation } from "react-router-dom";
-import { Box, Text, SimpleGrid, HStack, VStack, Stack } from "@chakra-ui/react";
+import { Link, useLocation } from "react-router-dom";
+import { Box, Text, SimpleGrid, HStack, VStack, Stack, Button } from "@chakra-ui/react";
 
 
 const details = () => {
@@ -46,7 +46,10 @@ const details = () => {
         <Box>
         <img src={state.primaryImage} alt={state.title} />
         </Box>
-      </SimpleGrid>        
+        <Box>
+        <Button size="md"><Link to="/">Go Back</Link></Button>  
+        </Box>
+      </SimpleGrid>       
       <Footer />
     </>
   )
