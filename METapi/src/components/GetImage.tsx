@@ -5,6 +5,7 @@ import { Input } from '@chakra-ui/react'
 import { Button, ButtonGroup } from '@chakra-ui/react'
 import { useToast } from '@chakra-ui/react'
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import { Link } from "react-router-dom";
 
 const GetImage = () => {
   const [artworkIds, setArtworkIds] = useState<any[]>([]);
@@ -153,12 +154,14 @@ const callDefault = async () => {
     className="my-masonry-grid"
   >
     <Masonry gutter="20px">
-      
     {artworkData.map((artwork, index) => {
   if (artwork.primaryImage) {
     return (
       <div key={index}>
-        <img src={artwork.primaryImage} alt={artwork.title} />
+        <Link to={'details/' + artwork.objectID}
+                    state= {artwork}>
+          <img src={artwork.primaryImage} alt={artwork.title} />
+        </Link>
         <p>{artwork.title}</p>
         <p>
           {artwork.artistDisplayName ? artwork.artistDisplayName : artwork.objectDate}
