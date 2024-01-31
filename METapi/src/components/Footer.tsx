@@ -11,29 +11,28 @@ import {
   Text,
   UnorderedList,
 } from "@chakra-ui/react";
-import React from "react";
 import logo from "../assets/logo.jpg";
 import { FaTwitter, FaFacebook, FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
     <Box height={300} w="100%">
-      <Divider />
+      <Divider m={5} />
       <Flex align="center" justify="space-around" margin={10}>
         <SimpleGrid columns={4} gap={2} w="100%">
           <Flex direction="column" align="center" position="relative">
             <img src={logo} alt="logo" width={"120px"} height={"120px"} />
 
-            <Flex
-              justify="center"
-              position="absolute"
-              bottom={0}
-              width="100%"
-              // mt={10}
-            >
-              <Icon boxSize={5} as={FaTwitter} mx={2} />
-              <Icon boxSize={5} as={FaFacebook} mx={2} />
-              <Icon boxSize={5} as={FaInstagram} mx={2} />
+            <Flex justify="center" position="absolute" bottom={0} width="100%">
+              <Link>
+                <Icon boxSize={5} as={FaTwitter} mx={2} />
+              </Link>
+              <Link>
+                <Icon boxSize={5} as={FaFacebook} mx={2} />
+              </Link>
+              <Link>
+                <Icon boxSize={5} as={FaInstagram} mx={2} />
+              </Link>
             </Flex>
           </Flex>
           <UnorderedList listStyleType="none" spacing={4}>
@@ -61,7 +60,7 @@ const Footer = () => {
             </ListItem>
           </UnorderedList>
           <Flex direction="column" align="center">
-            <Text fontSize="large">
+            <Text fontSize={["sm", "lg", "xl", "2xl"]}>
               Enter your email to receive news about the Met:
             </Text>
             <Input
@@ -70,7 +69,7 @@ const Footer = () => {
               m={2}
               focusBorderColor="crimson"
             />
-            <Button>Submit</Button>
+            <Button width="8rem">Submit</Button>
           </Flex>
         </SimpleGrid>
       </Flex>
