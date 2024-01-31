@@ -13,9 +13,14 @@
   font-size: 1.5em;
   cursor: pointer;
   margin-top: 20px;
-  transition: backdrop-filter 0.3s;  /* Apply transition for a smooth effect */
+  transition: backdrop-filter 0.3s; /* Apply transition for a smooth effect */
 }
 
 .enterButton:hover {
-  backdrop-filter: blur(8px);  /* Apply the blur effect on hover */
+  backdrop-filter: blur(8px); /* Apply the blur effect on hover */
+}
+
+input {
+  background-color: lightgray;
+  border-radius: 5px;
 }
