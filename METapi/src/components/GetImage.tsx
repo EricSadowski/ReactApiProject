@@ -2,9 +2,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import {
   Divider,
+  Heading,
+  Text,
   Input,
   InputGroup,
   InputRightElement,
+  Box,
 } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
@@ -175,12 +178,16 @@ const GetImage = () => {
                     <Link to={"details/" + artwork.objectID} state={artwork}>
                       <img src={artwork.primaryImage} alt={artwork.title} />
                     </Link>
-                    <p>{artwork.title}</p>
-                    <p>
-                      {artwork.artistDisplayName
-                        ? artwork.artistDisplayName
-                        : artwork.objectDate}
-                    </p>
+                    <Box textAlign="left" m={1} py={1}>
+                      <Heading as="h4" size="sm">
+                        {artwork.title}
+                      </Heading>
+                      <Text fontSize="md" fontWeight={100}>
+                        {artwork.artistDisplayName
+                          ? artwork.artistDisplayName
+                          : artwork.objectDate}
+                      </Text>
+                    </Box>
                   </div>
                 );
               }

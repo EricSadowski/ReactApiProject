@@ -19,7 +19,7 @@ const Footer = () => {
     <Box height={300} w="100%">
       <Divider m={5} />
       <Flex align="center" justify="space-around" margin={10}>
-        <SimpleGrid columns={4} gap={2} w="100%">
+        <SimpleGrid className="footerLinks" columns={4} gap={2} w="100%">
           <Flex direction="column" align="center" position="relative">
             <img src={logo} alt="logo" width={"120px"} height={"120px"} />
 
@@ -38,25 +38,31 @@ const Footer = () => {
           <UnorderedList listStyleType="none" spacing={4}>
             <ListItem fontSize="large">Useful Links</ListItem>
             <ListItem>
-              <Link>Link 1</Link>
+              <Link>Support</Link>
             </ListItem>
             <ListItem>
-              <Link>Link 2</Link>
+              <Link>Membership</Link>
             </ListItem>
             <ListItem>
-              <Link>Link 3</Link>
+              <Link>Events</Link>
+            </ListItem>
+            <ListItem>
+              <Link>Contact Us</Link>
             </ListItem>
           </UnorderedList>
           <UnorderedList listStyleType="none" spacing={4}>
-            <ListItem fontSize="large">About Us</ListItem>
+            <ListItem fontSize="large">About The Met</ListItem>
             <ListItem>
-              <Link>Link 4</Link>
+              <Link>Mission and History</Link>
             </ListItem>
             <ListItem>
-              <Link>Link 5</Link>
+              <Link>Departments</Link>
             </ListItem>
             <ListItem>
-              <Link>Link 6</Link>
+              <Link>Press</Link>
+            </ListItem>
+            <ListItem>
+              <Link>Careers</Link>
             </ListItem>
           </UnorderedList>
           <Flex direction="column" align="center">
