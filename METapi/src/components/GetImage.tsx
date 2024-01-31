@@ -4,6 +4,7 @@ import apiClient from "../services/api-client";
 import { Input } from '@chakra-ui/react'
 import { Button, ButtonGroup } from '@chakra-ui/react'
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import { Link } from "react-router-dom";
 
 const GetImage = () => {
   const [artworkIds, setArtworkIds] = useState<any[]>([]);
@@ -136,9 +137,14 @@ const GetImage = () => {
         if (artwork.primaryImage) {
           return (
             <div key={index}>
-              <img src={artwork.primaryImage} alt={artwork.title} />
-              <p>{artwork.title}</p>
-              <p>{artwork.artistDisplayName}</p>
+              <Link to={'details/' + artwork.objectID}
+                    state= {artwork}>
+                <img src={artwork.primaryImage} alt={artwork.title} />
+              </Link>
+                <p>{artwork.title}</p>
+                <p>
+                  {artwork.artistDisplayName ? artwork.artistDisplayName : artwork.objectDate}
+                </p>
             </div>
           );
         }
