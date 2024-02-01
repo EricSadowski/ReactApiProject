@@ -8,11 +8,13 @@ import {
   InputGroup,
   InputRightElement,
   Box,
+  IconButton,
 } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { Link } from "react-router-dom";
+import { FaArrowUp } from "react-icons/fa";
 
 const GetImage = () => {
   const [artworkIds, setArtworkIds] = useState<any[]>(() => {
@@ -29,6 +31,8 @@ const GetImage = () => {
   const [error, setError] = useState("");
   const toast = useToast();
   const [currentPage, setCurrentPage] = useState(1);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
   const itemsPerPage = 30;
 
   // This is always storing artworkIds in the local storage to prevent recalling the ids
@@ -160,6 +164,28 @@ const GetImage = () => {
     searchForTerm(inputValue); // Handle form submission
   };
 
+  const handleImageLoad = (artwork: { objectID: any }) => {
+    setArtworkData((prevState) =>
+      prevState.map((item) =>
+        item.objectID === artwork.objectID
+          ? { ...item, imageLoaded: true }
+          : item
+      )
+    );
+  };
+
+  const handleScroll = () => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    setShowBackToTop(scrollTop > 100);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   // TODO: clean up error catching
   // if (error) {
   //   return <div>Error: {error}</div>;
@@ -203,18 +229,24 @@ const GetImage = () => {
                 return (
                   <div key={index}>
                     <Link to={"/details/" + artwork.objectID} state={artwork}>
-                      <img src={artwork.primaryImage} alt={artwork.title} />
+                      <img
+                        src={artwork.primaryImage}
+                        alt={artwork.title}
+                        onLoad={() => handleImageLoad(artwork)}
+                      />
                     </Link>
-                    <Box textAlign="left" m={1} py={1}>
-                      <Heading as="h4" size="sm">
-                        {artwork.title}
-                      </Heading>
-                      <Text fontSize="md" fontWeight={100}>
-                        {artwork.artistDisplayName
-                          ? artwork.artistDisplayName
-                          : artwork.objectDate}
-                      </Text>
-                    </Box>
+                    {artwork.imageLoaded && (
+                      <Box textAlign="left" m={1} py={1}>
+                        <Heading as="h4" size="sm">
+                          {artwork.title}
+                        </Heading>
+                        <Text fontSize="md" fontWeight={100}>
+                          {artwork.artistDisplayName
+                            ? artwork.artistDisplayName
+                            : artwork.objectDate}
+                        </Text>
+                      </Box>
+                    )}
                   </div>
                 );
               }
@@ -225,6 +257,16 @@ const GetImage = () => {
         <Button onClick={handleLoadMore} mt={4}>
           Load More
         </Button>
+        {showBackToTop && (
+          <IconButton
+            icon={<FaArrowUp />}
+            aria-label="Back to Top"
+            position="fixed"
+            bottom="4"
+            right="4"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          />
+        )}
       </div>
     </div>
   );
