@@ -2,7 +2,7 @@ import { useState } from "react";
 import Footer from "./Footer"
 import Header from "./Header"
 import { Link, useLocation } from "react-router-dom";
-import { Box, Text, SimpleGrid, HStack, VStack, Stack, Button } from "@chakra-ui/react";
+import { Box, Text, SimpleGrid, HStack, VStack, Stack, Button, Center } from "@chakra-ui/react";
 
 
 const details = () => {
@@ -15,9 +15,12 @@ const details = () => {
       <Header inputValue={inputValue} setInputValue={setInputValue} />
       <SimpleGrid columns={{sm: 1, md: 2}} spacing={10}>
         <Box>          
+          
+          <Center h="50vh">
+          <VStack>
           <Text fontSize='5xl' as='b'>{state.title}</Text>
-          <Stack>
           <HStack>
+            
             <Text as="b" fontSize='xl'>Artist: </Text>
             <Text fontSize='xl'>{state.artistDisplayName}</Text>
           </HStack>
@@ -41,7 +44,8 @@ const details = () => {
             <Text as="b" fontSize='xl'>Classification: </Text>
             <Text fontSize='xl'>{state.classification}</Text>
           </HStack>
-          </Stack>
+          </VStack>
+          </Center>
         </Box>
         <Box>
         <img src={state.primaryImage} alt={state.title} />
