@@ -20,7 +20,11 @@ const GetImage = () => {
     const savedIds = localStorage.getItem("artworkIds");
     return savedIds ? JSON.parse(savedIds) : [];
   });
-  const [artworkData, setArtworkData] = useState<any[]>([]);
+  const [artworkData, setArtworkData] = useState<any[]>(() => {
+    // Retrieve artworkData from localStorage on component load
+    const savedData = localStorage.getItem("artworkData");
+    return savedData ? JSON.parse(savedData) : [];
+  });
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
   const toast = useToast();
@@ -31,6 +35,10 @@ const GetImage = () => {
   useEffect(() => {
     localStorage.setItem("artworkIds", JSON.stringify(artworkIds));
   }, [artworkIds]);
+
+  useEffect(() => {
+    localStorage.setItem("artworkData", JSON.stringify(artworkData));
+  }, [artworkData]);
 
   // When page loads this calls the default search "sunflower" the same one called when a user searches an invalid term -- see below
   useEffect(() => {
@@ -77,7 +85,7 @@ const GetImage = () => {
             }
           })
         );
-
+          setArtworkData([]);
         // Filter out null values (failed requests) and append the new data
         setArtworkData((prevState) => [
           ...prevState,
