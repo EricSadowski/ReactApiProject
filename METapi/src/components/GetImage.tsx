@@ -143,7 +143,7 @@ const GetImage = () => {
       {/* <p>Artist: {artworkData.constituents[0]?.name || "Unknown Artist"}</p>
       <p>Medium: {artworkData.medium}</p> */}
       <div>
-        <InputGroup size="md" my={4}>
+        <InputGroup size="md" my={7}>
           <form
             onSubmit={handleSubmit}
             style={{ display: "flex", alignItems: "center", width: "100%" }}
@@ -158,13 +158,12 @@ const GetImage = () => {
               pr="4.5rem"
             />
             <InputRightElement width="4.5rem">
-              <Button type="submit" size="sm">
+              <Button type="submit" size="sm" mr={1}>
                 Search
               </Button>
             </InputRightElement>
           </form>
         </InputGroup>
-        <Divider my={5} />
 
         <ResponsiveMasonry
           columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
