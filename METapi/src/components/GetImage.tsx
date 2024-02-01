@@ -24,12 +24,13 @@ const GetImage = () => {
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
   const toast = useToast();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 30;
 
   // This is always storing artworkIds in the local storage to prevent recalling the ids
   useEffect(() => {
     localStorage.setItem("artworkIds", JSON.stringify(artworkIds));
   }, [artworkIds]);
-
 
   // When page loads this calls the default search "sunflower" the same one called when a user searches an invalid term -- see below
   useEffect(() => {
@@ -52,38 +53,50 @@ const GetImage = () => {
     }
   };
 
-  // function that retrives the data based on the IDs in the useState
+  // function that retrieves the data based on the IDs in the useState
   useEffect(() => {
     const fetchArtworkData = async () => {
       try {
-        for (let i = 0; i < artworkIds.length; i++) {
-          try {
-            // iterate through id's appending them to the end of the URL to receive JSON data
-            const response = await axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${artworkIds[i]}`);
-            // Update artworkData with the fetched data using prevState
-            setArtworkData((prevState) => [...prevState, response.data]);
-            console.log(`Fetched data for ID: ${artworkIds[i]}`);
-          } catch (error) {
-            console.error(`Failed to fetch artwork data for ID: ${artworkIds[i]}`, error);
-            // Continue to the next iteration if a request fails
-            continue;
-          }
-        }
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const idsToFetch = artworkIds.slice(start, end);
+
+        const newData = await Promise.all(
+          idsToFetch.map(async (id) => {
+            try {
+              const response = await axios.get(
+                `https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}`
+              );
+              return response.data;
+            } catch (error) {
+              console.error(
+                `Failed to fetch artwork data for ID: ${id}`,
+                error
+              );
+              return null; // or handle error as needed
+            }
+          })
+        );
+
+        // Filter out null values (failed requests) and append the new data
+        setArtworkData((prevState) => [
+          ...prevState,
+          ...newData.filter(Boolean),
+        ]);
         console.log("All data updated");
       } catch (error) {
         setError("Failed to fetch artwork data");
       }
     };
+
     if (artworkIds.length > 0) {
       fetchArtworkData();
-    } else {
     }
-  }, [artworkIds]); // whenever ID state is updated this function is called which does all the heavy lifting.
+  }, [artworkIds, currentPage]);
 
-
-
-
-
+  const handleLoadMore = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
 
   // TODO: make calls work with api client
   async function searchForTerm(search: string) {
@@ -201,6 +214,9 @@ const GetImage = () => {
             })}
           </Masonry>
         </ResponsiveMasonry>
+        <Button onClick={handleLoadMore} mt={4}>
+          Load More
+        </Button>
       </div>
     </div>
   );
