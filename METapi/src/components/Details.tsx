@@ -5,15 +5,9 @@ import {
   Box,
   Text,
   SimpleGrid,
-  HStack,
   VStack,
-  Stack,
   Button,
   Center,
-  Spacer,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
 } from "@chakra-ui/react";
 
 const details = () => {
