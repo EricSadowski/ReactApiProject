@@ -50,17 +50,6 @@ const details = () => {
             <Text fontSize="xl">
               <b>Classification:</b> {state.classification}
             </Text>
-            <Spacer />
-            <Text mx={10}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat
-              quae quo veritatis nihil dolorem voluptate, odit nesciunt
-              assumenda quisquam sequi excepturi, esse nam voluptates
-              perspiciatis quos dolore accusamus? Ullam, tenetur! Lorem ipsum
-              dolor sit amet consectetur adipisicing elit. Commodi placeat
-              impedit sunt ex corrupti porro! Aspernatur voluptatibus corporis
-              molestiae voluptate autem odit eum culpa praesentium iure ratione
-              fugit, cupiditate fugiat.
-            </Text>
           </VStack>
         </Center>
         <Box>
