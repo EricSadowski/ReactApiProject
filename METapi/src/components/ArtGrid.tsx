@@ -1,11 +1,9 @@
 import GetImage from "./GetImage"
-import { useState, useEffect } from "react";
 import { Grid, GridItem } from "@chakra-ui/react";
 import Header from "./Header";
 import Footer from "./Footer";
 
 const artGrid = () => {
-  const [inputValue, setInputValue] = useState<string>("");
   return (
     <>
 
@@ -21,7 +19,7 @@ const artGrid = () => {
         justifyContent="center"
       >
         <GridItem pl="2" area={"header"}>
-          <Header inputValue={inputValue} setInputValue={setInputValue} />
+          <Header />
         </GridItem>
         <GridItem pl="2" area={"main"}>
         <GetImage />

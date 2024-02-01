@@ -1,18 +1,16 @@
-import { useState } from "react";
 import Footer from "./Footer"
 import Header from "./Header"
 import { Link, useLocation } from "react-router-dom";
-import { Box, Text, SimpleGrid, HStack, VStack, Stack, Button, Center } from "@chakra-ui/react";
+import { Box, Text, SimpleGrid, HStack, VStack, Stack, Button } from "@chakra-ui/react";
 
 
 const details = () => {
-  const [inputValue, setInputValue] = useState<string>("");
   const { state } = useLocation();
   console.log(state);
 
   return (
     <>
-      <Header inputValue={inputValue} setInputValue={setInputValue} />
+      <Header />
       <SimpleGrid columns={{sm: 1, md: 2}} spacing={10}>
         <Box>          
           
