@@ -49,7 +49,7 @@ const details = () => {
         <img src={state.primaryImage} alt={state.title} />
         </Box>
         <Box>
-        <Button size="md"><Link to="/">Go Back</Link></Button>  
+        <Button size="md"><Link to="/main">Go Back</Link></Button>  
         </Box>
       </SimpleGrid>       
       <Footer />

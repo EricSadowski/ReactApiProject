@@ -175,7 +175,7 @@ const GetImage = () => {
               if (artwork.primaryImage) {
                 return (
                   <div key={index}>
-                    <Link to={"details/" + artwork.objectID} state={artwork}>
+                    <Link to={"/details/" + artwork.objectID} state={artwork}>
                       <img src={artwork.primaryImage} alt={artwork.title} />
                     </Link>
                     <Box textAlign="left" m={1} py={1}>
