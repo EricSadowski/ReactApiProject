@@ -59,24 +59,33 @@ const GetImage = () => {
     const fetchArtworkData = async () => {
       try {
         for (let i = 0; i < artworkIds.length; i++) {
-          // iterate through id's appending them to end of url to recieve JSON data
-          const response = await axios.get(
-            `https://collectionapi.metmuseum.org/public/collection/v1/objects/${artworkIds[i]}`
-          );
-          // Update artworkData with the fetched data using prevState on search its blanked out before.
-          setArtworkData((prevState) => [...prevState, response.data]);
-          console.log("data updated");
+          try {
+            // iterate through id's appending them to the end of the URL to receive JSON data
+            const response = await axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${artworkIds[i]}`);
+            // Update artworkData with the fetched data using prevState
+            setArtworkData((prevState) => [...prevState, response.data]);
+            console.log(`Fetched data for ID: ${artworkIds[i]}`);
+          } catch (error) {
+            console.error(`Failed to fetch artwork data for ID: ${artworkIds[i]}`, error);
+            // Continue to the next iteration if a request fails
+            continue;
+          }
         }
+        console.log("All data updated");
       } catch (error) {
         setError("Failed to fetch artwork data");
       }
     };
-
     if (artworkIds.length > 0) {
       fetchArtworkData();
     } else {
     }
   }, [artworkIds]); // whenever ID state is updated this function is called which does all the heavy lifting.
+
+
+
+
+
 
   // TODO: make calls work with api client
   async function searchForTerm(search: string) {
