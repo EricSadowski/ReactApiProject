@@ -50,15 +50,15 @@ const details = () => {
             <Text fontSize="xl">
               <b>Classification:</b> {state.classification}
             </Text>
+            <Box>
+          <Button className="backButton" size="md" mt={6}>
+            <Link to="/main">Go Back</Link>
+          </Button>
+        </Box>
           </VStack>
         </Center>
         <Box>
           <img src={state.primaryImage} alt={state.title} />
-        </Box>
-        <Box>
-          <Button size="md">
-            <Link to="/main">Go Back</Link>
-          </Button>
         </Box>
       </SimpleGrid>
       <Footer />

@@ -31,7 +31,7 @@ const GetImage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showBackToTop, setShowBackToTop] = useState(false);
 
-  const itemsPerPage = 30;
+  const itemsPerPage = 100;
 
   // This is always storing artworkIds in the local storage to prevent recalling the ids
   useEffect(() => {
@@ -70,7 +70,7 @@ const GetImage = () => {
         const start = (currentPage - 1) * itemsPerPage;
         const end = start + itemsPerPage;
         const idsToFetch = artworkIds.slice(start, end);
-
+        setCurrentPage(1)
         const newData = await Promise.all(
           idsToFetch.map(async (id) => {
             try {
@@ -104,25 +104,17 @@ const GetImage = () => {
     }
   }, [artworkIds, currentPage]);
 
-  const handleLoadMore = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  };
+  // const handleLoadMore = () => {
+  //   setCurrentPage((prevPage) => prevPage + 1);
+  //   window.scroll({
+  //     top: 0,
+  //     left: 0,
+  //     behavior: "smooth",
+  //   });
+  // };
 
   // TODO: make calls work with api client
   async function searchForTerm(search: string) {
-    // apiClient
-    //   .get<any>(`/search?isOnView=true&q=${search}`)
-    //   .then((res) => {
-    //     setArtworkIds(res.data);
-    //     console.log("here"); // Log the response data
-    //   })
-    //   .catch((err) => setError(err.message));
-
     try {
       // Takes the search term and finds all the IDs associated with it
       const response = await axios.get(
@@ -181,15 +173,9 @@ const GetImage = () => {
   }, []);
 
   // TODO: clean up error catching
-  // if (error) {
-  //   return <div>Error: {error}</div>;
-  // }
 
   return (
     <div>
-      {/* <button>press</button> */}
-      {/* <p>Artist: {artworkData.constituents[0]?.name || "Unknown Artist"}</p>
-      <p>Medium: {artworkData.medium}</p> */}
       <div>
         <InputGroup size="md" my={7}>
           <form
@@ -242,9 +228,6 @@ const GetImage = () => {
             })}
           </Masonry>
         </ResponsiveMasonry>
-        <Button onClick={handleLoadMore} mt={4}>
-          Load More
-        </Button>
         {showBackToTop && (
           <IconButton
             icon={<FaArrowUp />}
