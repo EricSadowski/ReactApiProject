@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import {
-  Divider,
   Heading,
   Text,
   Input,
@@ -109,10 +108,10 @@ const GetImage = () => {
   const handleLoadMore = () => {
     setCurrentPage((prevPage) => prevPage + 1);
     window.scroll({
-      top: 0, 
-      left: 0, 
-      behavior: 'smooth' 
-     });
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
   };
 
   // TODO: make calls work with api client

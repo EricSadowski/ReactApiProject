@@ -5,20 +5,20 @@ import {
   Box,
   Text,
   SimpleGrid,
-  HStack,
   VStack,
-  Stack,
   Button,
   Center,
-  Spacer,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
 
 const details = () => {
   const { state } = useLocation();
   console.log(state);
+
+  useEffect(() => {
+    // Scroll to the top when the component mounts
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <>
