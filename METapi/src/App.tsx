@@ -3,7 +3,6 @@ import "./App.css";
 import { Grid, GridItem } from "@chakra-ui/react";
 import ArtGrid from "./components/ArtGrid";
 import Details from "./components/Details"
-import GetImage from "./pages/GetImage";
 import Landing from "./pages/Landing";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
