@@ -15,30 +15,28 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { Link } from "react-router-dom";
 
 const GetImage = () => {
-  const [artworkIds, setArtworkIds] = useState<any[]>([]);
+  const [artworkIds, setArtworkIds] = useState<any[]>(() => {
+    // Retrieve artworkIds from localStorage on component load
+    const savedIds = localStorage.getItem("artworkIds");
+    return savedIds ? JSON.parse(savedIds) : [];
+  });
   const [artworkData, setArtworkData] = useState<any[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
-
   const toast = useToast();
 
-  // when page loads default is Sunflower search
+  // This is always storing artworkIds in the local storage to prevent recalling the ids
   useEffect(() => {
-    const fetchArtworkIds = async () => {
-      try {
-        const response = await axios.get(
-          "https://collectionapi.metmuseum.org/public/collection/v1/search?isOnView=true&q=sunflower"
-        );
-        console.log(response.data);
-        setArtworkIds(response.data.objectIDs);
-        console.log("ids updated");
-      } catch (error) {
-        setError("Failed to fetch artwork data");
-      }
-    };
+    localStorage.setItem("artworkIds", JSON.stringify(artworkIds));
+  }, [artworkIds]);
 
-    fetchArtworkIds();
-  }, []);
+
+  // When page loads this calls the default search "sunflower" the same one called when a user searches an invalid term -- see below
+  useEffect(() => {
+    if (artworkIds.length === 0) {
+      callDefault(); // Call the default API function
+    }
+  }, [artworkIds]); // This is called evertime artworkIds is updated so the page never displays blank
 
   // a workaround method that is called when the user searches something that is not in the database
   const callDefault = async () => {
