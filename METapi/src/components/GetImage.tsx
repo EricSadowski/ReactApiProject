@@ -15,30 +15,28 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { Link } from "react-router-dom";
 
 const GetImage = () => {
-  const [artworkIds, setArtworkIds] = useState<any[]>([]);
+  const [artworkIds, setArtworkIds] = useState<any[]>(() => {
+    // Retrieve artworkIds from localStorage on component load
+    const savedIds = localStorage.getItem("artworkIds");
+    return savedIds ? JSON.parse(savedIds) : [];
+  });
   const [artworkData, setArtworkData] = useState<any[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
-
   const toast = useToast();
 
-  // when page loads default is Sunflower search
+  // This is always storing artworkIds in the local storage to prevent recalling the ids
   useEffect(() => {
-    const fetchArtworkIds = async () => {
-      try {
-        const response = await axios.get(
-          "https://collectionapi.metmuseum.org/public/collection/v1/search?isOnView=true&q=sunflower"
-        );
-        console.log(response.data);
-        setArtworkIds(response.data.objectIDs);
-        console.log("ids updated");
-      } catch (error) {
-        setError("Failed to fetch artwork data");
-      }
-    };
+    localStorage.setItem("artworkIds", JSON.stringify(artworkIds));
+  }, [artworkIds]);
 
-    fetchArtworkIds();
-  }, []);
+
+  // When page loads this calls the default search "sunflower" the same one called when a user searches an invalid term -- see below
+  useEffect(() => {
+    if (artworkIds.length === 0) {
+      callDefault(); // Call the default API function
+    }
+  }, [artworkIds]); // This is called evertime artworkIds is updated so the page never displays blank
 
   // a workaround method that is called when the user searches something that is not in the database
   const callDefault = async () => {
@@ -59,24 +57,33 @@ const GetImage = () => {
     const fetchArtworkData = async () => {
       try {
         for (let i = 0; i < artworkIds.length; i++) {
-          // iterate through id's appending them to end of url to recieve JSON data
-          const response = await axios.get(
-            `https://collectionapi.metmuseum.org/public/collection/v1/objects/${artworkIds[i]}`
-          );
-          // Update artworkData with the fetched data using prevState on search its blanked out before.
-          setArtworkData((prevState) => [...prevState, response.data]);
-          console.log("data updated");
+          try {
+            // iterate through id's appending them to the end of the URL to receive JSON data
+            const response = await axios.get(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${artworkIds[i]}`);
+            // Update artworkData with the fetched data using prevState
+            setArtworkData((prevState) => [...prevState, response.data]);
+            console.log(`Fetched data for ID: ${artworkIds[i]}`);
+          } catch (error) {
+            console.error(`Failed to fetch artwork data for ID: ${artworkIds[i]}`, error);
+            // Continue to the next iteration if a request fails
+            continue;
+          }
         }
+        console.log("All data updated");
       } catch (error) {
         setError("Failed to fetch artwork data");
       }
     };
-
     if (artworkIds.length > 0) {
       fetchArtworkData();
     } else {
     }
   }, [artworkIds]); // whenever ID state is updated this function is called which does all the heavy lifting.
+
+
+
+
+
 
   // TODO: make calls work with api client
   async function searchForTerm(search: string) {
