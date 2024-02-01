@@ -3,7 +3,6 @@ import {
   Divider,
   Flex,
   IconButton,
-  Spacer,
   useColorMode,
 } from "@chakra-ui/react";
 import logo from "../assets/logo.jpg";

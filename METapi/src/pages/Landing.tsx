@@ -1,16 +1,10 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect} from "react";
 import axios from "axios";
-import apiClient from "../services/api-client";
-import { Input } from '@chakra-ui/react'
-import { Button, ButtonGroup } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
 
 const Landing = () => {
     const [artworkIds, setArtworkIds] = useState<any[]>([]);
-    const [artworkData, setArtworkData] = useState<any[]>([]);
-    const [inputValue, setInputValue] = useState('');
     const [randomArtwork, setRandomArtwork] = useState<any>();
-    const [error, setError] = useState("");
 
 
 
@@ -25,7 +19,6 @@ const Landing = () => {
                 setArtworkIds(response.data.objectIDs);
                 console.log("ids updated")
             } catch (error) {
-                setError("Failed to fetch artwork data");
             }
         };
 
@@ -51,8 +44,6 @@ const Landing = () => {
 
             // This is a really dirty trick shhh
             catch (error) {
-                setError("Failed to fetch artwork data. Gonna try again tho boss");
-                console.log(error);
                 try {
                     let response = await axios.get(
                         "https://collectionapi.metmuseum.org/public/collection/v1/objects/436524"
@@ -62,8 +53,6 @@ const Landing = () => {
                     console.log("data updated")
                 }
                 catch (error) {
-                    setError("We really failed boss: its so over");
-                    console.log(error);
                 }
 
             }

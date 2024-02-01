@@ -27,7 +27,6 @@ const GetImage = () => {
     return savedData ? JSON.parse(savedData) : [];
   });
   const [inputValue, setInputValue] = useState("");
-  const [error, setError] = useState("");
   const toast = useToast();
   const [currentPage, setCurrentPage] = useState(1);
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -60,7 +59,7 @@ const GetImage = () => {
       setArtworkIds(response.data.objectIDs);
       console.log("ids updated");
     } catch (error) {
-      setError("Failed to fetch artwork data");
+
     }
   };
 
@@ -96,7 +95,7 @@ const GetImage = () => {
         ]);
         console.log("All data updated");
       } catch (error) {
-        setError("Failed to fetch artwork data");
+
       }
     };
 
