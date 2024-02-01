@@ -89,7 +89,7 @@ const GetImage = () => {
             }
           })
         );
-          setArtworkData([]);
+        setArtworkData([]);
         // Filter out null values (failed requests) and append the new data
         setArtworkData((prevState) => [
           ...prevState,
@@ -164,16 +164,7 @@ const GetImage = () => {
     searchForTerm(inputValue); // Handle form submission
   };
 
-  const handleImageLoad = (artwork: { objectID: any }) => {
-    setArtworkData((prevState) =>
-      prevState.map((item) =>
-        item.objectID === artwork.objectID
-          ? { ...item, imageLoaded: true }
-          : item
-      )
-    );
-  };
-
+  // for 'back to top' button
   const handleScroll = () => {
     const scrollTop = window.scrollY || document.documentElement.scrollTop;
     setShowBackToTop(scrollTop > 100);
@@ -229,24 +220,18 @@ const GetImage = () => {
                 return (
                   <div key={index}>
                     <Link to={"/details/" + artwork.objectID} state={artwork}>
-                      <img
-                        src={artwork.primaryImage}
-                        alt={artwork.title}
-                        onLoad={() => handleImageLoad(artwork)}
-                      />
+                      <img src={artwork.primaryImage} alt={artwork.title} />
                     </Link>
-                    {artwork.imageLoaded && (
-                      <Box textAlign="left" m={1} py={1}>
-                        <Heading as="h4" size="sm">
-                          {artwork.title}
-                        </Heading>
-                        <Text fontSize="md" fontWeight={100}>
-                          {artwork.artistDisplayName
-                            ? artwork.artistDisplayName
-                            : artwork.objectDate}
-                        </Text>
-                      </Box>
-                    )}
+                    <Box textAlign="left" m={1} py={1}>
+                      <Heading as="h4" size="sm">
+                        {artwork.title}
+                      </Heading>
+                      <Text fontSize="md" fontWeight={100}>
+                        {artwork.artistDisplayName
+                          ? artwork.artistDisplayName
+                          : artwork.objectDate}
+                      </Text>
+                    </Box>
                   </div>
                 );
               }
