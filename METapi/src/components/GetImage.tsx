@@ -16,13 +16,13 @@ import { Link } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
 
 const GetImage = () => {
+  // VERY crucial id and data both being collected from the browser cache so page reloads without lag
   const [artworkIds, setArtworkIds] = useState<any[]>(() => {
     // Retrieve artworkIds from localStorage on component load
     const savedIds = localStorage.getItem("artworkIds");
     return savedIds ? JSON.parse(savedIds) : [];
   });
   const [artworkData, setArtworkData] = useState<any[]>(() => {
-    // Retrieve artworkData from localStorage on component load
     const savedData = localStorage.getItem("artworkData");
     return savedData ? JSON.parse(savedData) : [];
   });
@@ -30,26 +30,28 @@ const GetImage = () => {
   const toast = useToast();
   const [currentPage, setCurrentPage] = useState(1);
   const [showBackToTop, setShowBackToTop] = useState(false);
-
+  //Setting an upper limit on items that can render
   const itemsPerPage = 100;
 
-  // This is always storing artworkIds in the local storage to prevent recalling the ids
+  // This is always storing artworkIds in the cache to prevent recalling the ids SEE ABOVE
   useEffect(() => {
     localStorage.setItem("artworkIds", JSON.stringify(artworkIds));
   }, [artworkIds]);
-
+  // same thing but with data
   useEffect(() => {
     localStorage.setItem("artworkData", JSON.stringify(artworkData));
   }, [artworkData]);
 
   // When page loads this calls the default search "sunflower" the same one called when a user searches an invalid term -- see below
+  // If it sees the artwork Id has nothing
   useEffect(() => {
     if (artworkIds.length === 0) {
       callDefault(); // Call the default API function
     }
-  }, [artworkIds]); // This is called evertime artworkIds is updated so the page never displays blank
+  }, [artworkIds]); // This is called everytime artworkIds is updated so the page never displays blank
 
   // a workaround method that is called when the user searches something that is not in the database
+  // also the default fallback for other methods
   const callDefault = async () => {
     try {
       const response = await axios.get(
@@ -67,10 +69,12 @@ const GetImage = () => {
   useEffect(() => {
     const fetchArtworkData = async () => {
       try {
+        // we attempted pagination but ended up just using it as a cap to load first 100 items
         const start = (currentPage - 1) * itemsPerPage;
         const end = start + itemsPerPage;
         const idsToFetch = artworkIds.slice(start, end);
         setCurrentPage(1)
+        // calling a map of data with the ids presented by the previous state (either the cache, search for term or default search)
         const newData = await Promise.all(
           idsToFetch.map(async (id) => {
             try {
@@ -88,7 +92,7 @@ const GetImage = () => {
           })
         );
         setArtworkData([]);
-        // Filter out null values (failed requests) and append the new data
+        // Filter out null values and append the new data
         setArtworkData((prevState) => [
           ...prevState,
           ...newData.filter(Boolean),
@@ -104,6 +108,9 @@ const GetImage = () => {
     }
   }, [artworkIds, currentPage]);
 
+
+  // Code for future pagination
+
   // const handleLoadMore = () => {
   //   setCurrentPage((prevPage) => prevPage + 1);
   //   window.scroll({
@@ -114,6 +121,7 @@ const GetImage = () => {
   // };
 
   // TODO: make calls work with api client
+
   async function searchForTerm(search: string) {
     try {
       // Takes the search term and finds all the IDs associated with it
@@ -131,10 +139,13 @@ const GetImage = () => {
           status: "error",
           isClosable: true,
         });
+        // reset data to blank and call default
         setArtworkData([]);
         callDefault();
         return;
       } else {
+        //otherwise set a new batch of ids and delete current data
+        // by reseting the IDs the data function is automatically called
         setArtworkIds(response.data.objectIDs);
         setArtworkData([]);
         console.log("ids updated");
