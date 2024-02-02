@@ -26,15 +26,18 @@ const Landing = () => {
     }, []);
 
 
-    // function that retrives the data based on the IDs in the useState
+    // function that retrives a random image based on the IDs in the useState
     useEffect(() => {
         const fetchArtworkData = async () => {
+            // randomization function to create a random index
             const randomIndex = Math.floor(Math.random() * artworkIds.length);
             try {
                 let response = await axios.get(
+                    // asks for the id from a random index of the artwork ids array
                     `https://collectionapi.metmuseum.org/public/collection/v1/objects/${artworkIds[randomIndex]}`
                 );
                 console.log("response is: " + response.data.primaryImage);
+                // fallback in case call is invalid (vincent's sunflowers)
                 if (response.data.primaryImage === "") {
                     response = await axios.get("https://collectionapi.metmuseum.org/public/collection/v1/objects/436524")
                 }

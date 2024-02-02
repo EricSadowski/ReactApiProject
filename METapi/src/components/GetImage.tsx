@@ -72,6 +72,7 @@ const GetImage = () => {
         // we attempted pagination but ended up just using it as a cap to load first 100 items
         const start = (currentPage - 1) * itemsPerPage;
         const end = start + itemsPerPage;
+        //takes all the artwork ids and plugs them into the map
         const idsToFetch = artworkIds.slice(start, end);
         setCurrentPage(1)
         // calling a map of data with the ids presented by the previous state (either the cache, search for term or default search)
@@ -91,6 +92,7 @@ const GetImage = () => {
             }
           })
         );
+        // set to blank so it will update properly
         setArtworkData([]);
         // Filter out null values and append the new data
         setArtworkData((prevState) => [
